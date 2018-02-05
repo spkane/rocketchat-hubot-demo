@@ -42,8 +42,8 @@ services:
       - "./zmachine/zcode:/root/zcode"
     depends_on:
       - rocketchat
-    ports:
-      - 3002:80
+    expose:
+      - "80"
     networks:
       - botnet
   hubot:
