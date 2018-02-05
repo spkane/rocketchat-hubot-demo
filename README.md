@@ -13,7 +13,7 @@ You can find more zcode (z5) games here: https://ifarchive.org/indexes/if-archiv
 
 * Here are some very basic instructions on how you might use this:
 
-* In a local terminal run: `docker-compose up -d`
+* In a local terminal run: `cd compose/unix; docker-compose up -d`
 * Open: http://127.0.0.1:3000
 * Click: Register a new account
    * Name: admin

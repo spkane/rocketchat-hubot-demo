@@ -2,12 +2,12 @@ version: '2'
 services:
   mongo:
     build:
-      context: ./mongodb/docker
+      context: ../../mongodb/docker
     image: spkane/mongo:3.2
     restart: unless-stopped
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
     volumes:
-      - "./mongodb/data/db:/data/db"
+      - "../../mongodb/data/db:/data/db"
     networks:
       - botnet
   mongo-init-replica:
@@ -21,7 +21,7 @@ services:
     image: rocketchat/rocket.chat:0.61.0
     restart: unless-stopped
     volumes:
-      - "./rocketchat/data/uploads:/app/uploads"
+      - "../../rocketchat/data/uploads:/app/uploads"
     environment:
       PORT: 3000
       ROOT_URL: "http://127.0.0.1:3000"
@@ -38,8 +38,8 @@ services:
     image: spkane/zmachine-api:latest
     restart: unless-stopped
     volumes:
-      - "./zmachine/saves:/root/saves"
-      - "./zmachine/zcode:/root/zcode"
+      - "../../zmachine/saves:/root/saves"
+      - "../../zmachine/zcode:/root/zcode"
     depends_on:
       - rocketchat
     expose:
@@ -50,7 +50,7 @@ services:
     image: rocketchat/hubot-rocketchat:latest
     restart: unless-stopped
     volumes:
-      - "./hubot/scripts:/home/hubot/scripts"
+      - "../../hubot/scripts:/home/hubot/scripts"
     environment:
       RESPOND_TO_DM: "true"
       HUBOT_ALIAS: ". "
