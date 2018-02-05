@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
     volumes:
-     - "./mongodb/data/db:/data/db"
+      - "./mongodb/data/db:/data/db"
     networks:
       - botnet
   mongo-init-replica:
