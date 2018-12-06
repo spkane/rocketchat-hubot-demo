@@ -6,6 +6,8 @@ services:
     image: spkane/mongo:3.2
     restart: unless-stopped
     command: mongod --smallfiles --oplogSize 128 --replSet rs0
+    # Ports already exposed by upstream
+    # See: https://github.com/docker-library/mongo/blob/master/3.2/Dockerfile#L97
     volumes:
       - "../../mongodb/data/db:/data/db"
     networks:
