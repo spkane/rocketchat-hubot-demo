@@ -2,3 +2,4 @@
 /rocketchat/data/uploads
 /zmachine/saves
 /zmachine/zcode
+.env
