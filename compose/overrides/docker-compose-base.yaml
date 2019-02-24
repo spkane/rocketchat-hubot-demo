@@ -32,7 +32,7 @@ services:
     depends_on:
       - mongo
     ports:
-      ${ROCKETCHAT_HOST_PORT:-3000}:3000
+      - ${ROCKETCHAT_HOST_PORT:-3000}:3000
     networks:
       - botnet
   zmachine:
@@ -61,7 +61,7 @@ services:
       ROCKETCHAT_URL: ${HUBOT_ROCKETCHAT_URL:-rocketchat:3000}
       ROCKETCHAT_ROOM: ${HUBOT_ROCKETCHAT_ROOM:-}
       ROCKETCHAT_USER: ${HUBOT_ROCKETCHAT_USER:-hubot}
-      ROCKETCHAT_PASSWORD: ${HUBOT_ROCKETCHAT_PASSWORD:-HughTheBot}
+      ROCKETCHAT_PASSWORD: ${HUBOT_ROCKETCHAT_PASSWORD:?HUBOT_ROCKETCHAT_PASSWORD must be set!}
       BOT_NAME: ${HUBOT_BOT_NAME:-bot}
       EXTERNAL_SCRIPTS: ${HUBOT_EXTERNAL_SCRIPTS:-hubot-help,hubot-diagnostics,hubot-zmachine}
       HUBOT_ZMACHINE_SERVER: ${HUBOT_ZMACHINE_SERVER:-http://zmachine:80}

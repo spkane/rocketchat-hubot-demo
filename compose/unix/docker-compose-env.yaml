@@ -26,7 +26,7 @@ services:
       - "../../rocketchat/data/uploads:/app/uploads"
     environment:
       # Using variable substitution: https://docs.docker.com/compose/compose-file/#variable-substitution
-      PORT: ${MONGO_PORT:-3000}
+      PORT: ${ROCKETCHAT_PORT:-3000}
       ROOT_URL: ${ROCKETCHAT_ROOT_URL:-http://127.0.0.1:3000}
       MONGO_URL: ${MONGO_URL:-mongodb://mongo:27017/rocketchat}
       MONGO_OPLOG_URL: ${MONGO_OPLOG_URL:-mongodb://mongo:27017/local}
@@ -34,7 +34,7 @@ services:
     depends_on:
       - mongo
     ports:
-      - 3000:3000
+      - ${ROCKETCHAT_HOST_PORT:-3000}:3000
     networks:
       - botnet
   zmachine:
@@ -72,7 +72,7 @@ services:
     depends_on:
       - zmachine
     ports:
-      - 3001:8080
+      - ${HUBOT_HOST_PORT:-3001}:8080
     networks:
       - botnet
 networks:
