@@ -27,7 +27,7 @@ export ROCKETCHAT_AUTH="password"
 export ROCKETCHAT_URL="rocketchat:3000"
 export ROCKETCHAT_ROOM=""
 export ROCKETCHAT_USER="hubot"
-export ROCKETCHAT_PASSWORD="HughTheBot"
+export ROCKETCHAT_PASSWORD="bot-pw!"
 export BOT_NAME="bot"
 export EXTERNAL_SCRIPTS="hubot-help,hubot-diagnostics,hubot-zmachine"
 export HUBOT_ZMACHINE_SERVER="http://zmachine:80"
@@ -98,7 +98,7 @@ docker run -d \
   -e ROCKETCHAT_URL="rocketchat:3000" \
   -e ROCKETCHAT_ROOM="" \
   -e ROCKETCHAT_USER="hubot" \
-  -e ROCKETCHAT_PASSWORD="HughTheBot" \
+  -e ROCKETCHAT_PASSWORD="bot-pw!" \
   -e BOT_NAME="bot" \
   -e EXTERNAL_SCRIPTS="hubot-help,hubot-diagnostics,hubot-zmachine" \
   -e HUBOT_ZMACHINE_SERVER="http://zmachine:80" \

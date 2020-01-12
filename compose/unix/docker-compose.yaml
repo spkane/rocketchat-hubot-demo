@@ -62,7 +62,7 @@ services:
       ROCKETCHAT_URL: "rocketchat:3000"
       ROCKETCHAT_ROOM: ""
       ROCKETCHAT_USER: "hubot"
-      ROCKETCHAT_PASSWORD: "HughTheBot"
+      ROCKETCHAT_PASSWORD: "bot-pw!"
       BOT_NAME: "bot"
       EXTERNAL_SCRIPTS: "hubot-help,hubot-diagnostics,hubot-zmachine"
       HUBOT_ZMACHINE_SERVER: "http://zmachine:80"

@@ -35,7 +35,7 @@ You can find more zcode (z5) games here: https://ifarchive.org/indexes/if-archiv
    * Username: hubot
    * Email: hubot@example.com
    * Click: Verified (Green)
-   * Password: HughTheBot
+   * Password: bot-pw!
    * Click: Require password change (Red)
    * Select a role: bot
    * Click: Add Role
