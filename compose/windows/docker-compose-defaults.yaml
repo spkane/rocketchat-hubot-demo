@@ -33,7 +33,7 @@ services:
     depends_on:
       - mongo
     ports:
-      ${ROCKETCHAT_HOST_PORT:-3000}:3000
+      - ${ROCKETCHAT_HOST_PORT:-3000}:3000
     networks:
       - botnet
   zmachine:

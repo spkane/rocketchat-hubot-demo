@@ -1,4 +1,9 @@
-#/bin/bash
+#!/bin/bash
+
+# This is here just to keep people from really running this.
+exit 1
+
+# The actual script
 
 set -e
 set -u
