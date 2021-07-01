@@ -55,9 +55,9 @@ services:
       - "../../hubot/scripts:/home/hubot/scripts"
     environment:
       # Using variable substitution: https://docs.docker.com/compose/compose-file/#variable-substitution
-      RESPOND_TO_DM: ${HUBOT_RESPOND_TO_DM:-true}
+      RESPOND_TO_DM: ${HUBOT_RESPOND_TO_DM:-"true"}
       HUBOT_ALIAS: ${HUBOT_ALIAS:-. }
-      LISTEN_ON_ALL_PUBLIC: ${HUBOT_LISTEN_ON_ALL_PUBLIC:-true}
+      LISTEN_ON_ALL_PUBLIC: ${HUBOT_LISTEN_ON_ALL_PUBLIC:-"true"}
       ROCKETCHAT_AUTH: ${HUBOT_ROCKETCHAT_AUTH:-password}
       ROCKETCHAT_URL: ${HUBOT_ROCKETCHAT_URL:-rocketchat:3000}
       ROCKETCHAT_ROOM: ${HUBOT_ROCKETCHAT_ROOM:-}
