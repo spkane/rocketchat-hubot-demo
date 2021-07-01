@@ -13,7 +13,7 @@ You can find more zcode (z5) games here: https://ifarchive.org/indexes/if-archiv
 
 * Here are some very basic instructions on how you might use this:
 
-* In a local terminal run: `cd compose/unix; docker-compose up -d`
+* In a local terminal run: `cd compose/unix; docker compose up -d`
 * Open: http://127.0.0.1:3000
 * Click: Register a new account
    * Name: admin
@@ -43,7 +43,7 @@ You can find more zcode (z5) games here: https://ifarchive.org/indexes/if-archiv
    * Click: Save
 * At the top of the left side Administration panel, click the X icon to close the panel.
 * In the left side panel under `channels`, click `general`.
-* In a local terminal run: `docker-compose restart hubot`
+* In a local terminal run: `docker compose restart hubot`
 * In the message windows at the bottom of the `general` chat screen, type `/invite @hubot` to invite the bot.
 * Then type `@hubot time`, or as a shortcut `. time`, to test that the bot is responding.
 * Finally try typing `. meme One does not simply launch a complex web service with docker-compose!`
