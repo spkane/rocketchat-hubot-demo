@@ -39,11 +39,11 @@ export HUBOT_ZMACHINE_SERVER="http://zmachine:80"
 export HUBOT_ZMACHINE_ROOMS="zmachine"
 export HUBOT_ZMACHINE_OT_PREFIX="ot"
 
-docker build -t spkane/mongo:3.2 ./mongodb/docker
+docker build -t spkane/mongo:5.0.11 ./mongodb/docker
 
-docker push spkane/mongo:3.2
+docker push spkane/mongo:5.0.11
 docker pull spkane/zmachine-api:latest
-docker pull rocketchat/rocket.chat:0.61.0
+docker pull rocketchat/rocket.chat:5.0.4
 docker pull rocketchat/hubot-rocketchat:latest
 
 docker rm -f hubot || true
@@ -61,13 +61,13 @@ docker run -d \
   --network=botnet \
   --restart unless-stopped \
   -v $(pwd)/mongodb/data/db:/data/db \
-  spkane/mongo:3.2 \
-  mongod --smallfiles --oplogSize 128 --replSet rs0
+  spkane/mongo:5.0.11 \
+  mongod --oplogSize 128 --replSet rs0
 sleep 5
 docker run -d \
   --name=mongo-init-replica \
   --network=botnet \
-  spkane/mongo:3.2 \
+  spkane/mongo:5.0.11 \
   'mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''127.0.0.1:27017'' } ]})"'
 sleep 5
 docker run -d \
@@ -81,7 +81,7 @@ docker run -d \
   -e MONGO_URL=${MONGO_URL} \
   -e MONGO_OPLOG_URL=${MONGO_OPLOG_URL} \
   -e MAIL_URL=${MAIL_URL} \
-  rocketchat/rocket.chat:0.61.0
+  rocketchat/rocket.chat:5.0.4
 docker run -d \
   --name=zmachine \
   --network=botnet \
