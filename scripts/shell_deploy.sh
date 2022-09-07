@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Note: This script has not been kept 100% up-to-date and likely
+# differeciates somewhat from the current docker-compose.yaml file.
+
 # This is here just to keep people from really running this.
 exit 1
 
@@ -12,7 +15,6 @@ if [ $# -ne 0 ] && [ ${1} == "down" ]; then
   docker rm -f hubot || true
   docker rm -f zmachine || true
   docker rm -f rocketchat || true
-  docker rm -f mongo-init-replica || true
   docker rm -f mongo || true
   docker network rm botnet || true
   echo "Environment torn down..."
@@ -22,8 +24,8 @@ fi
 # Global Settings
 export PORT="3000"
 export ROOT_URL="http://127.0.0.1:3000"
-export MONGO_URL="mongodb://mongo:27017/rocketchat"
-export MONGO_OPLOG_URL="mongodb://mongo:27017/local"
+export MONGO_URL="mongodb://mongo:27017/rocketchat?replicaSet=rs0"
+export MONGO_OPLOG_URL="mongodb://mongo:27017/local?replicaSet=rs0"
 export MAIL_URL="smtp://smtp.email"
 export RESPOND_TO_DM="true"
 export HUBOT_ALIAS=". "
@@ -39,9 +41,9 @@ export HUBOT_ZMACHINE_SERVER="http://zmachine:80"
 export HUBOT_ZMACHINE_ROOMS="zmachine"
 export HUBOT_ZMACHINE_OT_PREFIX="ot"
 
-docker build -t spkane/mongo:5.0.11 ./mongodb/docker
+docker build -t spkane/mongo:4.4 ./mongodb/docker
 
-docker push spkane/mongo:5.0.11
+docker push spkane/mongo:4.4
 docker pull spkane/zmachine-api:latest
 docker pull rocketchat/rocket.chat:5.0.4
 docker pull rocketchat/hubot-rocketchat:latest
@@ -49,7 +51,6 @@ docker pull rocketchat/hubot-rocketchat:latest
 docker rm -f hubot || true
 docker rm -f zmachine || true
 docker rm -f rocketchat || true
-docker rm -f mongo-init-replica || true
 docker rm -f mongo || true
 
 docker network rm botnet || true
@@ -61,14 +62,8 @@ docker run -d \
   --network=botnet \
   --restart unless-stopped \
   -v $(pwd)/mongodb/data/db:/data/db \
-  spkane/mongo:5.0.11 \
+  spkane/mongo:4.4 \
   mongod --oplogSize 128 --replSet rs0
-sleep 5
-docker run -d \
-  --name=mongo-init-replica \
-  --network=botnet \
-  spkane/mongo:5.0.11 \
-  'mongo mongo/rocketchat --eval "rs.initiate({ _id: ''rs0'', members: [ { _id: 0, host: ''127.0.0.1:27017'' } ]})"'
 sleep 5
 docker run -d \
   --name=rocketchat \
@@ -112,4 +107,3 @@ docker run -d \
   rocketchat/hubot-rocketchat:latest
 echo "Environment setup..."
 exit 0
-

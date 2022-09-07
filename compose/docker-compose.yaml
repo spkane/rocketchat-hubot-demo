@@ -3,7 +3,7 @@ services:
   mongo:
     build:
       context: ../mongodb/docker
-    image: spkane/mongo:5.0.11
+    image: spkane/mongo:4.4
     restart: unless-stopped
     environment:
       MONGODB_REPLICA_SET_MODE: primary
