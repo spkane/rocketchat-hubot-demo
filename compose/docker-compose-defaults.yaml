@@ -12,9 +12,9 @@ services:
       MONGODB_INITIAL_PRIMARY_HOST: ${MONGODB_INITIAL_PRIMARY_HOST:-mongodb}
       MONGODB_INITIAL_PRIMARY_PORT_NUMBER: ${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}
       MONGODB_ADVERTISED_HOSTNAME: ${MONGODB_ADVERTISED_HOSTNAME:-mongo}
-      MONGODB_ENABLE_JOURNAL: ${MONGODB_ENABLE_JOURNAL:-true}
-      ALLOW_EMPTY_PASSWORD: ${ALLOW_EMPTY_PASSWORD:-yes}
-    # Ports already exposed by upstream
+      MONGODB_ENABLE_JOURNAL: ${MONGODB_ENABLE_JOURNAL:-"true"}
+      ALLOW_EMPTY_PASSWORD: ${ALLOW_EMPTY_PASSWORD:-"yes"}
+    # Port 27017 already exposed by upstream
     # See:
     # https://github.com/bitnami/bitnami-docker-mongodb/blob/879452aa052d33744384d43949958a3204ad5d29/4.4/debian-10/Dockerfile#L27
     networks:

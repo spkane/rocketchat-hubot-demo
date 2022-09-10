@@ -1,10 +1,7 @@
 version: '3'
 services:
   mongo:
-    build:
-      context: ../mongodb/docker
     image: spkane/mongo:4.4
-    restart: unless-stopped
     environment:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_NAME: rs0
@@ -14,21 +11,13 @@ services:
       MONGODB_ADVERTISED_HOSTNAME: mongo
       MONGODB_ENABLE_JOURNAL: "true"
       ALLOW_EMPTY_PASSWORD: "yes"
-    # Port 27017 already exposed by upstream
-    # See:
-    # https://github.com/bitnami/bitnami-docker-mongodb/blob/879452aa052d33744384d43949958a3204ad5d29/4.4/debian-10/Dockerfile#L27
-    networks:
-      - botnet
   rocketchat:
     image: rocketchat/rocket.chat:5.0.4
-    restart: unless-stopped
     labels:
       traefik.enable: "true"
       traefik.http.routers.rocketchat.rule: Host(`127.0.0.1`)
       traefik.http.routers.rocketchat.tls: "false"
       traefik.http.routers.rocketchat.entrypoints: http
-    volumes:
-      - "../rocketchat/data/uploads:/app/uploads"
     environment:
       ROOT_URL: http://127.0.0.1:3000
       PORT: 3000
@@ -36,29 +25,15 @@ services:
       MONGO_OPLOG_URL: "mongodb://mongo:27017/local?replicaSet=rs0"
       DEPLOY_METHOD: docker
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
     ports:
       - 3000:3000
-    networks:
-      - botnet
   zmachine:
     image: spkane/zmachine-api:latest
-    restart: unless-stopped
-    volumes:
-      - "../zmachine/saves:/root/saves"
-      - "../zmachine/zcode:/root/zcode"
     depends_on:
       - rocketchat
-    expose:
-      - "80"
-    networks:
-      - botnet
   hubot:
     image: rocketchat/hubot-rocketchat:latest
-    restart: unless-stopped
-    volumes:
-      - "../hubot/scripts:/home/hubot/scripts"
     environment:
       RESPOND_TO_DM: "true"
       HUBOT_ALIAS: ". "
@@ -77,8 +52,3 @@ services:
       - zmachine
     ports:
       - 3001:8080
-    networks:
-      - botnet
-networks:
-  botnet:
-    driver: bridge
