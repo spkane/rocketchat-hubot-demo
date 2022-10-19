@@ -3,3 +3,4 @@
 /zmachine/saves
 /zmachine/zcode
 .env
+docker-compose.override.yaml
