@@ -1,6 +1,6 @@
 FROM docker.io/bitnami/mongodb:4.4
-# Approxiamate Upstream Dockerfile:
-# https://github.com/bitnami/bitnami-docker-mongodb/blob/879452aa052d33744384d43949958a3204ad5d29/4.4/debian-10/Dockerfile
+# Newer Upstream Dockerfile:
+# https://github.com/bitnami/containers/blob/f9fb3f8a6323fb768fd488c77d4f111b1330bd0e/bitnami/mongodb/5.0/debian-11/Dockerfile
 
 COPY docker-healthcheck /usr/local/bin/
 
