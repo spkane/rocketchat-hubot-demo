@@ -12,10 +12,10 @@ set -e
 set -u
 
 if [ $# -ne 0 ] && [ ${1} == "down" ]; then
-  docker rm -f hubot || true
-  docker rm -f zmachine || true
-  docker rm -f rocketchat || true
-  docker rm -f mongo || true
+  docker container rm -f hubot || true
+  docker container rm -f zmachine || true
+  docker container rm -f rocketchat || true
+  docker container rm -f mongo || true
   docker network rm botnet || true
   echo "Environment torn down..."
   exit 0
@@ -41,23 +41,23 @@ export HUBOT_ZMACHINE_SERVER="http://zmachine:80"
 export HUBOT_ZMACHINE_ROOMS="zmachine"
 export HUBOT_ZMACHINE_OT_PREFIX="ot"
 
-docker build -t spkane/mongo:4.4 ./mongodb/docker
+docker image build -t spkane/mongo:4.4 ./mongodb/docker
 
-docker push spkane/mongo:4.4
-docker pull spkane/zmachine-api:latest
-docker pull rocketchat/rocket.chat:5.0.4
-docker pull rocketchat/hubot-rocketchat:latest
+docker image push spkane/mongo:4.4
+docker image pull spkane/zmachine-api:latest
+docker image pull rocketchat/rocket.chat:5.0.4
+docker image pull rocketchat/hubot-rocketchat:latest
 
-docker rm -f hubot || true
-docker rm -f zmachine || true
-docker rm -f rocketchat || true
-docker rm -f mongo || true
+docker container rm -f hubot || true
+docker container rm -f zmachine || true
+docker container rm -f rocketchat || true
+docker container rm -f mongo || true
 
 docker network rm botnet || true
 
 docker network create -d bridge botnet
 
-docker run -d \
+docker container run -d \
   --name=mongo \
   --network=botnet \
   --restart unless-stopped \
@@ -65,7 +65,7 @@ docker run -d \
   spkane/mongo:4.4 \
   mongod --oplogSize 128 --replSet rs0
 sleep 5
-docker run -d \
+docker container run -d \
   --name=rocketchat \
   --network=botnet \
   --restart unless-stopped  \
@@ -77,7 +77,7 @@ docker run -d \
   -e MONGO_OPLOG_URL=${MONGO_OPLOG_URL} \
   -e MAIL_URL=${MAIL_URL} \
   rocketchat/rocket.chat:5.0.4
-docker run -d \
+docker container run -d \
   --name=zmachine \
   --network=botnet \
   --restart unless-stopped  \
@@ -85,7 +85,7 @@ docker run -d \
   -v $(pwd)/zmachine/zcode:/root/zcode \
   -p 3002:80 \
   spkane/zmachine-api:latest
-docker run -d \
+docker container run -d \
   --name=hubot \
   --network=botnet \
   --restart unless-stopped  \
@@ -105,5 +105,6 @@ docker run -d \
   -e HUBOT_ZMACHINE_ROOMS="zmachine" \
   -e HUBOT_ZMACHINE_OT_PREFIX="ot" \
   rocketchat/hubot-rocketchat:latest
+
 echo "Environment setup..."
 exit 0

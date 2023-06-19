@@ -1,6 +1,10 @@
 version: '3'
 services:
   mongo:
+    # The underlying bitnami image is
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     build:
       context: ../mongodb/docker
     image: spkane/mongo:4.4
@@ -20,6 +24,9 @@ services:
     networks:
       - botnet
   rocketchat:
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     image: rocketchat/rocket.chat:5.0.4
     restart: unless-stopped
     labels:
@@ -55,6 +62,9 @@ services:
     networks:
       - botnet
   hubot:
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     image: rocketchat/hubot-rocketchat:latest
     restart: unless-stopped
     volumes:
