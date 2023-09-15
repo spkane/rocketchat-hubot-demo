@@ -61,7 +61,7 @@ docker container run -d \
   --name=mongo \
   --network=botnet \
   --restart unless-stopped \
-  -v $(pwd)/mongodb/data/db:/data/db \
+  -v $(pwd)/mongodb/data/db:/bitnami/mongodb \
   spkane/mongo:4.4 \
   mongod --oplogSize 128 --replSet rs0
 sleep 5

@@ -1,6 +1,10 @@
 version: '3'
 services:
   mongo:
+    # The underlying bitnami image is
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     build:
       context: ../mongodb/docker
     image: spkane/mongo:4.4
@@ -14,12 +18,17 @@ services:
       MONGODB_ADVERTISED_HOSTNAME: ${MONGODB_ADVERTISED_HOSTNAME:-mongo}
       MONGODB_ENABLE_JOURNAL: ${MONGODB_ENABLE_JOURNAL:-true}
       ALLOW_EMPTY_PASSWORD: ${ALLOW_EMPTY_PASSWORD:-yes}
+    volumes:
+      - mongodb-rocketchat:/bitnami/mongodb
     # Port 27017 already exposed by upstream
     # See the newer upstream Dockerfile:
     # https://github.com/bitnami/containers/blob/f9fb3f8a6323fb768fd488c77d4f111b1330bd0e/bitnami/mongodb/5.0/debian-11/Dockerfile#L52
     networks:
       - botnet
   rocketchat:
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     image: rocketchat/rocket.chat:5.0.4
     restart: unless-stopped
     labels:
@@ -30,7 +39,7 @@ services:
     volumes:
       - "../rocketchat/data/uploads:/app/uploads"
     environment:
-      ROOT_URL: ${ROCKETCHAT_ROOT_URL:-http://127.0.0.1:${HOST_PORT:-3000}}
+      ROOT_URL: ${ROCKETCHAT_ROOT_URL:-http://127.0.0.1:${ROCKETCHAT_HOST_PORT:-3000}}
       PORT: ${ROCKETCHAT_PORT:-3000}
       MONGO_URL: "${MONGO_URL:-\
         mongodb://${MONGODB_ADVERTISED_HOSTNAME:-mongo}:${MONGODB_INITIAL_PRIMARY_PORT_NUMBER:-27017}/\
@@ -43,7 +52,7 @@ services:
       mongo:
         condition: service_healthy
     ports:
-      - ${ROCKETCHAT_PORT:-3000}:3000
+      - ${ROCKETCHAT_HOST_PORT:-3000}:${ROCKETCHAT_PORT:-3000}
     networks:
       - botnet
   zmachine:
@@ -59,6 +68,9 @@ services:
     networks:
       - botnet
   hubot:
+    # AMD64 only at the moment.
+    # Will use QEMU emulation on ARM64
+    platform: linux/amd64
     image: rocketchat/hubot-rocketchat:latest
     restart: unless-stopped
     volumes:
@@ -87,3 +99,6 @@ services:
 networks:
   botnet:
     driver: bridge
+volumes:
+  mongodb-rocketchat:
+    external: true

@@ -18,6 +18,8 @@ services:
       MONGODB_ADVERTISED_HOSTNAME: mongo
       MONGODB_ENABLE_JOURNAL: "true"
       ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mongodb-rocketchat:/bitnami/mongodb
     # Port 27017 already exposed by upstream
     # See the newer upstream Dockerfile:
     # https://github.com/bitnami/containers/blob/f9fb3f8a6323fb768fd488c77d4f111b1330bd0e/bitnami/mongodb/5.0/debian-11/Dockerfile#L52
@@ -92,3 +94,6 @@ services:
 networks:
   botnet:
     driver: bridge
+volumes:
+  mongodb-rocketchat:
+    external: true
