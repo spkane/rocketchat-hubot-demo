@@ -1,18 +1,18 @@
 version: '3'
 services:
-  mongo:
-    image: spkane/mongo:4.4
+  mongodb:
+    image: spkane/mongo:5.0
     environment:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_NAME: rs0
       MONGODB_PORT_NUMBER: 27017
       MONGODB_INITIAL_PRIMARY_HOST: mongodb
       MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
-      MONGODB_ADVERTISED_HOSTNAME: mongo
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
       MONGODB_ENABLE_JOURNAL: "true"
       ALLOW_EMPTY_PASSWORD: "yes"
   rocketchat:
-    image: rocketchat/rocket.chat:5.0.4
+    image: rocketchat/rocket.chat:6.5.2
     labels:
       traefik.enable: "true"
       traefik.http.routers.rocketchat.rule: Host(`127.0.0.1`)
@@ -21,11 +21,13 @@ services:
     environment:
       ROOT_URL: http://127.0.0.1:3000
       PORT: 3000
-      MONGO_URL: "mongodb://mongo:27017/rocketchat?replicaSet=rs0"
-      MONGO_OPLOG_URL: "mongodb://mongo:27017/local?replicaSet=rs0"
+      MONGO_URL: "mongodb://mongodb:27017/rocketchat?replicaSet=rs0"
+      MONGO_OPLOG_URL: "mongodb://mongodb:27017/local?replicaSet=rs0"
       DEPLOY_METHOD: docker
+      DEPLOY_PLATFORM: ""
+      REG_TOKEN: ""
     depends_on:
-      - mongo
+      - mongodb
     ports:
       - 3000:3000
   zmachine:

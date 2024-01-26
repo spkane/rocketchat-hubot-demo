@@ -1,13 +1,9 @@
 version: '3'
 services:
-  mongo:
-    # The underlying bitnami image is
-    # AMD64 only at the moment.
-    # Will use QEMU emulation on ARM64
-    platform: linux/amd64
+  mongodb:
     build:
       context: ../mongodb/docker
-    image: spkane/mongo:4.4
+    image: spkane/mongo:5.0
     restart: unless-stopped
     environment:
       MONGODB_REPLICA_SET_MODE: primary
@@ -15,21 +11,21 @@ services:
       MONGODB_PORT_NUMBER: 27017
       MONGODB_INITIAL_PRIMARY_HOST: mongodb
       MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
-      MONGODB_ADVERTISED_HOSTNAME: mongo
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
       MONGODB_ENABLE_JOURNAL: "true"
       ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - mongodb-rocketchat:/bitnami/mongodb
     # Port 27017 already exposed by upstream
-    # See the newer upstream Dockerfile:
-    # https://github.com/bitnami/containers/blob/f9fb3f8a6323fb768fd488c77d4f111b1330bd0e/bitnami/mongodb/5.0/debian-11/Dockerfile#L52
+    # See the upstream Dockerfile:
+    # https://github.com/docker-library/mongo/blob/master/5.0/Dockerfile
     networks:
       - botnet
   rocketchat:
     # AMD64 only at the moment.
-    # Will use QEMU emulation on ARM64
+    # Will use QEMU/Rosetta emulation on ARM64
     platform: linux/amd64
-    image: rocketchat/rocket.chat:5.0.4
+    image: rocketchat/rocket.chat:6.5.2
     restart: unless-stopped
     labels:
       traefik.enable: "true"
@@ -41,11 +37,13 @@ services:
     environment:
       ROOT_URL: http://127.0.0.1:3000
       PORT: 3000
-      MONGO_URL: "mongodb://mongo:27017/rocketchat?replicaSet=rs0"
-      MONGO_OPLOG_URL: "mongodb://mongo:27017/local?replicaSet=rs0"
+      MONGO_URL: "mongodb://mongodb:27017/rocketchat?replicaSet=rs0"
+      MONGO_OPLOG_URL: "mongodb://mongodb:27017/local?replicaSet=rs0"
       DEPLOY_METHOD: docker
+      DEPLOY_PLATFORM: ""
+      REG_TOKEN: ""
     depends_on:
-      mongo:
+      mongodb:
         condition: service_healthy
     ports:
       - 3000:3000
@@ -65,7 +63,7 @@ services:
       - botnet
   hubot:
     # AMD64 only at the moment.
-    # Will use QEMU emulation on ARM64
+    # Will use QEMU/Rosetta emulation on ARM64
     platform: linux/amd64
     image: rocketchat/hubot-rocketchat:latest
     restart: unless-stopped

@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mongo:
+  mongodb:
     volumes:
       - "../../mongodb/data/db:/bitnami/mongodb"
 volumes: {}
