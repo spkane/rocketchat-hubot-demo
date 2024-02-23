@@ -1,6 +1,6 @@
 FROM docker.io/zcube/bitnami-compat-mongodb:5.0
 # Upstream Dockerfile:
-# https://github.com/docker-library/mongo/blob/master/5.0/Dockerfile
+# https://github.com/bitnami/containers/blob/f9fb3f8a6323fb768fd488c77d4f111b1330bd0e/bitnami/mongodb/5.0/debian-11/Dockerfile
 
 COPY docker-healthcheck /usr/local/bin/
 
