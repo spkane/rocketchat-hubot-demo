@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Note: This script has not been kept 100% up-to-date and likely
-# differeciates somewhat from the current docker-compose.yaml file.
+# differs somewhat from the current docker-compose.yaml file.
 
 # This is here just to keep people from really running this.
 exit 1
