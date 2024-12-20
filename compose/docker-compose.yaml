@@ -1,3 +1,4 @@
+name: rocketchat-platform
 services:
   mongodb:
     build:
